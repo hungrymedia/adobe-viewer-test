@@ -35,33 +35,17 @@
   <a href="#pdf-1" class="tab-toggle">PDF 1</a> | <a href="#pdf-2" class="tab-toggle">PDF 2</a>
   <section class="tab-group" id="pdf-1">
     <h2>PDF 1</h2>
-    <div class="pdf-container" id="adobe-dc-view-1" style="width:800px"></div>
-      <script type="text/javascript">
-       document.addEventListener("adobe_dc_view_sdk.ready", function()
-       {
-          var adobeDCView1 = new AdobeDC.View({clientId: "cc75cf9a7a9448c0ad1e22a2ebf2399a", divId: "adobe-dc-view-1"});
-          adobeDCView1.previewFile(
-         {
-             content:  {location: {url: "fpo.pdf"}},
-             metaData: {fileName: "fpo.pdf"}
-         }, {embedMode: "IN_LINE"});
-       });
-      </script>
+      <div class="pdf-container"
+       id="adobe-dc-view-1"
+       style="width:800px"
+       data-pdf="fpo.pdf"></div>
   </section>
   <section class="tab-group" id="pdf-2">
     <h2>PDF 2</h2>
-    <div class="pdf-container" id="adobe-dc-view-2" style="width:800px"></div>
-      <script type="text/javascript">
-       document.addEventListener("adobe_dc_view_sdk.ready", function()
-       {
-          var adobeDCView2 = new AdobeDC.View({clientId: "cc75cf9a7a9448c0ad1e22a2ebf2399a", divId: "adobe-dc-view-2"});
-          adobeDCView2.previewFile(
-         {
-             content:  {location: {url: "fpo2.pdf"}},
-             metaData: {fileName: "fpo2.pdf"}
-         }, {embedMode: "IN_LINE"});
-       });
-      </script>
+    <div class="pdf-container"
+         id="adobe-dc-view-2"
+         style="width:800px"
+         data-pdf="fpo2.pdf"></div>
   </section>
   <script>
     $('.tab-toggle').click(function(e){
@@ -70,6 +54,24 @@
       $('.tab-group').hide()
       var targetId = $(this).attr('href')
       $(targetId).show()
+    })
+
+    document.addEventListener("adobe_dc_view_sdk.ready", function() {
+      console.log('adobe_dc_view_sdk.ready')
+      $('.pdf-container').each(function(el) {
+        pdfUrl = $(this).attr('data-pdf')
+        elId = $(this).attr('id')
+        console.log(pdfUrl)
+        adobeDCView = new AdobeDC.View({
+          clientId: "cc75cf9a7a9448c0ad1e22a2ebf2399a", divId: elId
+        });
+        adobeDCView.previewFile(
+          {
+             content:  {location: {url: pdfUrl}},
+             metaData: {fileName: pdfUrl}
+          }, {embedMode: "IN_LINE"}
+        )
+      })
     })
 
   </script>
