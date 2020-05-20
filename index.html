@@ -5,15 +5,22 @@
   <style>
     body {
       font-family: sans-serif;
+      text-align: center;
     }
     section {
-      height: 500px;
+      min-height: 500px;
       border: 1px solid #999;
       background: #EEE;
       margin: 1rem;
       padding: 1rem;
     }
+
+    #pdf-2 {
+      display: none;
+    }
   </style>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
 </head>
 <body>
   <h1>Adobe PDF viewer issues</h1>
@@ -21,8 +28,46 @@
     <h2>Problem</h2>
     <p>Page scrolls to top when PDF viewer is made visible</p>
   </section>
-  <section>
+  <a href="#pdf-1" class="tab-toggle">PDF 1</a> | <a href="#pdf-2" class="tab-toggle">PDF 2</a>
+  <section class="tab-group" id="pdf-1">
     <h2>PDF 1</h2>
+    <div id="adobe-dc-view-1"></div>
+      <script type="text/javascript">
+       document.addEventListener("adobe_dc_view_sdk.ready", function()
+       {
+          var adobeDCView = new AdobeDC.View({clientId: "cc75cf9a7a9448c0ad1e22a2ebf2399a", divId: "adobe-dc-view-1"});
+          adobeDCView.previewFile(
+         {
+             content:  {location: {url: "fpo.pdf"}},
+             metaData: {fileName: "fpo.pdf"}
+         });
+       });
+      </script>
   </section>
+  <section class="tab-group" id="pdf-2">
+    <h2>PDF 2</h2>
+    <div id="adobe-dc-view-2"></div>
+      <script type="text/javascript">
+       document.addEventListener("adobe_dc_view_sdk.ready", function()
+       {
+          var adobeDCView = new AdobeDC.View({clientId: "cc75cf9a7a9448c0ad1e22a2ebf2399a", divId: "adobe-dc-view-2"});
+          adobeDCView.previewFile(
+         {
+             content:  {location: {url: "fpo2.pdf"}},
+             metaData: {fileName: "fpo2.pdf"}
+         });
+       });
+      </script>
+  </section>
+  <script>
+    $('.tab-toggle').click(function(e){
+      e.preventDefault()
+      console.log('click')
+      $('.tab-group').hide()
+      var targetId = $(this).attr('href')
+      $(targetId).show()
+    })
+
+  </script>
 </body>
 </html>
